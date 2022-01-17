@@ -33,6 +33,7 @@ async function run() {
         }
         
         core.setOutput("isOrgMember", isOrgMember)
+        console.log(`${username} is member of ${organization}: ${isOrgMember}`)
 
         if (isOrgMember && team != "" ) {
             console.log(`Will check if ${username} belongs to ${team}`)
