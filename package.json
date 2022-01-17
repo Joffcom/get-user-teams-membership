@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "@actions/core": "^1.2.6",
-    "@actions/github": "^4.0.0"
+    "@actions/github": "^4.0.0",
+    "action-input-parser": "^1.2.26"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.24.0"
