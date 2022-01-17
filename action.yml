@@ -12,9 +12,6 @@ inputs:
     description: 'If you specify a team name it will output if the user is a member of that team (case insensitive)'
     required: false
     default: ''
-  debug:
-    description: 'Debug logging?'
-    required: false
   GITHUB_TOKEN:
     description: 'GITHUB_TOKEN'
     required: true

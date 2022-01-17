@@ -12,34 +12,32 @@ async function run() {
         const organization = core.getInput("organization") || context.repo.owner
         const username = core.getInput("username")
         const team = core.getInput("team")
-        const debug = core.getInput("debug") || false
+
         let isTeamMember = false
         let isOrgMember = false
 
         console.log(`will check if ${username} belongs to ${organization}`);
+        
         try {
-            const {data: data} = await api.rest.teams.getMembershipForUserInOrg({
+            const {data: data} = await api.orgs.getMembershipForUser({
                 org: organization,
                 username: username,
                 });
-            isTeamMember = data.role && data.state === 'active';
+            isOrgMember = data.state === 'active';
         } catch (restError) {
             if(restError.status === 404){
-                isTeamMember = false
+                isOrgMember = false
             } else {
                 throw restError
             }
         }
         
-        core.setOutput("isTeamMember", isTeamMember)
         core.setOutput("isOrgMember", isOrgMember)
-        console.log(`${username} is member of ${organization}`)
 
-        if (isOrgMember) {
+        if (isOrgMember && team != "" ) {
             console.log(`Will check if ${username} belongs to ${team}`)
-            core.setOutput("isTeamMember", false)
             try {
-                const {data: data} = await api.rest.teams.getMembershipForUserInOrg({
+                const {data: data} = await api.teams.getMembershipForUserInOrg({
                     org: organization,
                     team_slug: team,
                     username: username,
@@ -55,6 +53,7 @@ async function run() {
             core.setOutput("isTeamMember", isTeamMember)
             console.log(`${username} is member of ${organization}/${team}: ${isTeamMember}`)
         }
+
     } catch (error) {
         console.log(error)
         core.setOutput("isTeamMember", false)
